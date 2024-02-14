@@ -1,5 +1,5 @@
 const express = require('express')
-const bcrypt = require('bcrypt')
+const jwt = require('jsonwebtoken')
 require('./db/mongoose')
 const userRouter = require('./routers/user')
 const taskRouter = require('./routers/task')
@@ -16,13 +16,15 @@ app.listen(port, () => {
 })
 
 const myFunction = async () => {
-    const password = 'Red12'
-    const hashed  = await bcrypt.hash(password,8)
-    console.log(password)
-    console.log(hashed)
 
-    const isMatch = await bcrypt.compare('Red12',hashed)
-    console.log(isMatch)
+     const token = jwt.sign({ _id: "abc123" }, "thisismynewcourse", {
+       expiresIn: "7 days",
+     });
+     console.log(token);
+
+
+    const data = jwt.verify(token, "thisismynewcourse");
+    console.log(data);
 }
 
 myFunction()
